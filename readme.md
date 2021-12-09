@@ -1,52 +1,59 @@
 ## 1 登录 注册 登出
 
-1. ```json
-   功能: 注册
+1. 功能: 注册
    方法: POST
    地址: /login_register/register/
-   提交数据示例：JSON:{
+   提交数据示例：JSON
+
+   ```json
+   {
        "username": "mzd",
        "password": "123456",
        "email": "256598@qq.com",
-       "authority": True or False //是否为管理员账号
-   }
-   返回值: JSON {
-       "state": ok或error标示注册是否成功 
-       "msg": 成功返回空 失败返回错误信息
-   }
-   错误信息：msg_error:传入信息错误；method_error:错误的请求方式；
-   示例: JSON:{
-       "state": "error",
-       "msg": "msg_error"
+       "authority": True,  //or False 是否为管理员账号
    }
    ```
 
+   返回值: JSON
+
+            ```json
+            {
+                "state": "ok",    //ok或error标示注册是否成功 
+                "msg": ""         //成功返回空 失败返回错误信息
+                // msg_error:传入信息错误；method_error:错误的请求方式；
+            }
+            ```
+
+
 2. ```json
-   功能：登录
-   方法：POST
-   地址：/login_register/login/
-   提交数据示例：JSON:{
+   //功能：登录
+   //方法：POST
+   //地址：/login_register/login/
+   //提交数据示例：JSON:
+   {
        "username": "mzd",
        "password": "123456"
    }
-   返回值：JSON {
-        "state"：ok或error标示登录是否成功,
-        "msg"：  成功返回用户对象（待定） 失败返回错误信息
+   //返回值：JSON 
+   {
+        "state"： "ok",  //ok或error标示登录是否成功,
+        "msg"：  ""     //成功返回用户对象（待定） 失败返回错误信息
    }
-   错误信息： login_error:账号或密码错误；method_error_repeat_login_error:重复登录或错误请求方式;
-   返回示例 JSON {
+   //错误信息：login_error:账号或密码错误；method_error_repeat_login_error:重复登录或错误请求方式;
+   //返回示例 JSON 
+   {
        "state": "error",
        "msg": "method_error_repeat_login_error"
    }
-
+   
 3. ```
    功能：登出当前账户
    方法：GET
    地址：/login_register/logout/
    数据示例：无
    返回：
-   	成功返回：{"state": "ok", "msg":""}
-   	错误返回：{"state": "error", "msg": "method_error repeat_logout"}
+       成功返回：{"state": "ok", "msg":""}
+       错误返回：{"state": "error", "msg": "method_error repeat_logout"}
 
 ## 2 用户反馈
 
