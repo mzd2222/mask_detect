@@ -10,19 +10,17 @@
        "username": "mzd",
        "password": "123456",
        "email": "256598@qq.com",
-       "authority": True,  //or False 是否为管理员账号
+       "authority": true,  //or false 是否为管理员账号
    }
    ```
-
    返回值: JSON
-
-            ```json
-            {
-                "state": "ok",    //ok或error标示注册是否成功 
-                "msg": ""         //成功返回空 失败返回错误信息
-                // msg_error:传入信息错误；method_error:错误的请求方式；
-            }
-            ```
+   ```json
+   {
+       "state": "ok",    //ok或error标示注册是否成功 
+       "msg": ""         //成功返回空 失败返回错误信息
+       // msg_error:传入信息错误；method_error:错误的请求方式；
+   }
+   ```  
 
 
 2. ```json
