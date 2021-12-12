@@ -22,7 +22,7 @@ from utils.general import apply_classifier, check_img_size, check_imshow, check_
 from utils.plots import Annotator, colors
 from utils.torch_utils import load_classifier, select_device, time_sync
 
-
+# TODO: 需要把run函数简化，使其处理连续的图片帧的时候不需要重复加载，速度更快；
 @torch.no_grad()
 def run(weights=ROOT / './runs/train/exp5/weights/best.pt',  # model.pt path(s)
         source=ROOT / 'data/images',  # file/dir/URL/glob, 0 for webcam
