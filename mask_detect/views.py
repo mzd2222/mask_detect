@@ -10,7 +10,7 @@ import random
 import datetime
 import time
 import json
-
+import base64
 
 def readFile(filename, chunk_size=1024):
     with open(filename, 'rb') as f:
@@ -130,7 +130,15 @@ def Picture_calculate(request):
     img = cv2.imdecode(np.array(bytearray(file_obj.read()), dtype='uint8'), cv2.IMREAD_UNCHANGED)
     frame, text = mask_detect_img.main_img(img)
 
-    return HttpResponse(frame, content_type='image/jpg')
+    _, imgencode = cv2.imencode('.jpg', frame, [int(cv2.IMWRITE_JPEG_QUALITY), 95])
+    data = np.array(imgencode)
+    img = data.tobytes()
+    img = base64.b64encode(img).decode()
+    img = "data:image/jpg;base64," + img
+
+    return JsonResponse({"image_data": img})
+
+    # return HttpResponse(frame, content_type='image/jpg')
     # return JsonResponse({"state": "ok"})
 
 

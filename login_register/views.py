@@ -14,7 +14,7 @@ def register(request):
         username = request.POST.get('username')
         password = request.POST.get('password')
         email = request.POST.get('email')
-        authority = request.POST.get('authority')
+        authority = bool(request.POST.get('authority'))
 
         print(username, password, email, authority, "注册")
 

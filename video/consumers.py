@@ -6,8 +6,6 @@ import json
 from channels.generic.websocket import AsyncWebsocketConsumer
 from yolov5 import mask_detect_img
 
-encode_param = [int(cv2.IMWRITE_JPEG_QUALITY), 95]
-
 class VideoConsumer(AsyncWebsocketConsumer):
     async def connect(self):
         # channel_type = self.scope['url_route']['kwargs']['channel_name']
@@ -33,33 +31,32 @@ class VideoConsumer(AsyncWebsocketConsumer):
         )
 
     # Receive message from WebSocket
-    async def receive(self, text_data):
+    async def receive(self, bytes_data):
 
-        code, base64_data = text_data.split(',')
-        # print(code)
-        # print(img_msg)
-        imgData = base64.b64decode(base64_data)
-        nparr = np.fromstring(imgData, np.uint8)
-        img_np = cv2.imdecode(nparr, cv2.IMREAD_COLOR)
+        # print(bytes_data)
+        img = cv2.imdecode(np.frombuffer(bytes_data, np.uint8), cv2.IMREAD_COLOR)
+        # cv2.imshow("a", img)
+        # cv2.waitKey(1)
+        # imgData = base64.b64decode(base64_data)
+        # nparr = np.fromstring(imgData, np.uint8)
+        # img_np = cv2.imdecode(nparr, cv2.IMREAD_COLOR)
 
-        frame, text = mask_detect_img.main_img(img_np)
-        cv2.imshow('a', frame)
-        cv2.waitKey(1)
-        # result, imgencode = cv2.imencode('.jpg', frame, encode_param)
-        # data = np.array(imgencode)
-        # img = data.tobytes()
-        # base64_data_after = base64.b64encode(img).decode()
-        # text_data = "data:image/jpg;base64," + base64_data_after
+        frame, _ = mask_detect_img.main_img(img)
+        # cv2.imshow('a', frame)
+        # cv2.waitKey(1)
+        _, img_encode = cv2.imencode('.jpg', frame, [int(cv2.IMWRITE_JPEG_QUALITY), 60])
+        data = np.array(img_encode).tobytes()
+        base64_data_after = base64.b64encode(data).decode()
+        img_data = "data:image/jpg;base64," + base64_data_after
 
-        _, room_name, channel_type = self.room_group_name.split('_')
+        # _, room_name, channel_type = self.room_group_name.split('_')
         room_group_name = 'video_%s_%s' % (self.room_name, 'output')
-
         await self.channel_layer.group_send(
             # 'video_output_channel',
             room_group_name,
             {
                 'type': 'video_message',
-                'message': text_data,
+                'message': img_data,
             }
         )
 
